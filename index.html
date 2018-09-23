@@ -18,7 +18,7 @@
 
         <div class="container">
 
-            <div id="animalButtons"></div> 
+            <div id="animalButtons"></div> <!-- -->
 
                 <form id="animal-form">
                     <label for="animal-input">Add your favorite animal here! </label>
@@ -28,7 +28,9 @@
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script type="text/javascript">
-
+                
+            $(document).ready(function () {
+            
             var animals = ["Dolphin", "Tiger", "Ferret", "Dog", "Cat", "Monkey", "Bird"];
 
             function renderButtons() {
@@ -41,7 +43,7 @@
 
                         a.addClass("animal");
 
-                        a.attr("data-name", animals[i]);
+                        a.attr("data-animal", animals[i]);
 
                         a.text(animals[i]);
 
@@ -49,7 +51,7 @@
                 }
             }
 
-                $("#add-movie").on("click", function(event) {
+                $("#add-animal").on("click", function(event) {
                     event.preventDefault();
 
                     var animal = $("#animal-input").val().trim();
@@ -61,19 +63,19 @@
 
                 renderButtons();
             
-                $("button").on("click", function() {
+                $(document).on("click", ".animal", function() {
 
                 var animal = $(this).attr("data-animal");
+                console.log(animal);
 
                 var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
                 animal + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-                    $.ajax({
-                    url: queryURL,
-                    method: "GET"
-                    })
-
-                .then(function(response) {
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+             })
+            .then(function(response) {
                 console.log(queryURL);
 
                 console.log(response);
@@ -82,22 +84,26 @@
 
                 for (var i = 0; i < results.length; i++) {
 
-                var animalDiv = $("<div>");
+                    var animalDiv = $("<div>");
 
-                var p = $("<p>").text("Rating: " + results[i].rating);
+                    var p = $("<p>").text("Rating: " + results[i].rating);
 
-                var animalImage = $("<img>");
+                    var animalImage = $("<img>");
     
-                animalImage.attr("src", results[i].images.fixed_height.url);
+                    animalImage.attr("src", results[i].images.fixed_height.url);
 
-                animalDiv.append(p);
-                animalDiv.append(animalImage);
+                    animalDiv.append(p);
+                    animalDiv.append(animalImage);
 
-                $("#gifs-appear-here").prepend(animalDiv);
+                    $("#gifs-appear-here").prepend(animalDiv);
     
-    
-            }
-        });
+                }
+            
+            });
+
+                });
+
+        }); //end doc.ready//
         
                 </script>
 
